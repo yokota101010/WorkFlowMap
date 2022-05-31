@@ -21,8 +21,8 @@
 						<th class="w-25">部署</th>
 						<td>
 							<!-- 部署プルダウンリスト -->
-							<select	name="employee.divisionId"
-								th:with="divisionList=${divisionRepository.findMany('__*{employee.organizationId}__')}">
+							<select	name="employee.divisionId" id="employee.divisionId"
+								th:with="divisionList=${divisionRepository.findMany('__*{employee.organizationId}__')}" disabled>
 								<option th:each="item : ${divisionList}" th:value="${item.divisionId}" th:text="${item.name}"
 									th:selected="${item.divisionId} == *{employee.divisionId}"></option>
 							</select>
@@ -80,13 +80,17 @@
 
 		<!-- ADMIN権限用の活性化処理 -->
 		<script sec:authorize="hasRole('ADMIN')" th:inline="javascript">
-			/**従業員詳細テキストボックス*/
+			/*部署プルダウンリスト*/
+			var elm_name = document.getElementById("employee.divisionId");
+			elm_name.disabled = false;
+
+			/*従業員詳細テキストボックス*/
 			var elm_name = document.getElementById("employee.name");
 			var elm_description = document.getElementById("employee.description");
 			elm_name.readOnly = false;
 			elm_description.readOnly = false;
 
-			/**職能チェックボックス*/
+			/*職能チェックボックス*/
 			var elms_checkbox = document.getElementsByName("employee.holdAbilityIds")
 			elms_checkbox.forEach(function (checkTag) {
 				checkTag.disabled = false;

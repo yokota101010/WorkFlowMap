@@ -8,9 +8,10 @@ import com.example.domain.model.division.DivisionRepository;
 import com.example.domain.model.employee.EmployeeRepository;
 import com.example.domain.model.loginuser.LoginuserRepository;
 import com.example.domain.model.organization.OrganizationRepository;
+import com.example.fw.RepositoryService;
 
 @Service
-public class RepositoryService {
+public class RepositoryServiceImpl implements RepositoryService {
 
 	@Autowired
 	private AbilityRepository abilityRepository;
