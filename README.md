@@ -39,6 +39,49 @@
 
 ## モジュール構成
 
+基本的にはヘキサゴナルアーキテクチャを念頭に置いている。
+
+<pre>
+WorkFlowMap
+└─src
+    └─main
+        ├─java
+        │  └─com
+        │      └─example
+        │          ├─application --------------- アプリケーション層
+        │          ├─aspect
+        │          ├─config
+        │          ├─domain -------------------- ドメイン層
+        │          │  └─model
+        │          ├─port
+        │          │  └─adapter ---------------- アダプタ層
+        │          │      ├─persistence --------  ・永続化に関わるアダプタ（MyBatis用インタフェース）
+        │          │      └─view ---------------  ・UIに関わるアダプタ
+        │          │          ├─controller
+        │          │          └─dpo
+        │          └─utilities
+        └─resources
+            ├─mapper
+            │  └─h2 ---------------------------- MyBatis×H2用XMLファイル
+            ├─static
+            │  ├─css
+            │  │  └─layout
+            │  └─js
+            └─templates
+</pre>
+
+### ドメイン層
+ 
+- リボジトリ／ファクトリは集約ごとに作成。
+- バリデーションチェックは下記の３段階で検討する。
+  - 単項目のエラーチェック　→　Springの仕組み（`＠NotNull`など）で行う。不足分は独自アノテーションの作成を検討。
+  - エンティティ全体のエラーチェック　→　ルートエンティティに持たせるvalidate()の中に記載。
+  - 他のエンティティとの関連チェック　→　テーブル制約はRepositoryでチェック。その他はドメインサービスの作成を検討。
+
+### アダプタ層
+
+- 外部との接続の種類に応じて拡張する。例えば、REST用アダプタやファイルアクセス用アダプタ。
+
 ## 依存プロジェクト
 ### DomainPayloadObjectTrial
 https://github.com/yokota101010/DomainPayloadObjectTrial
