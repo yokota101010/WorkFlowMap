@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- Mapperとxmlのマッピング -->
+<mapper namespace="com.example.port.adapter.persistence.AbilityMapper">
+	<!-- マッピング定義(職能) -->
+	<resultMap type="com.example.domain.model.ability.Ability" id="abilityMap">
+		<result column="name" property="name" />
+		<result column="description" property="description" />
+		<result column="num_of_holders" property="numOfHolders" />
+		<association property="organizationId" resultMap="oIdMap"/>
+		<association property="abilityId" resultMap="aIdMap"/>
+	</resultMap>
+
+	<!-- マッピング定義(組織ID) -->
+	<resultMap type="com.example.domain.model.organization.OrganizationId" id="oIdMap">
+		<id column="organization_id" property="id" />
+	</resultMap>
+
+	<!-- マッピング定義(職能ID) -->
+	<resultMap type="com.example.domain.model.ability.AbilityId" id="aIdMap">
+		<id column="ability_id" property="id" />
+	</resultMap>
+
+	<!-- 職能作成（１件） -->
+	<insert id="insertOne">
+		insert into m_ability(
+			organization_id,
+			ability_id,
+			name,
+			description,
+			num_of_holders
+		)
+		values(
+			#{_Ability.organizationId.id},
+			#{_Ability.abilityId.id},
+			#{_Ability.name},
+			#{_Ability.description},
+			#{_Ability.numOfHolders}
+		)
+	</insert>
+
+	<!-- 職能更新（１件） -->
+	<update id="updateOne">
+		update
+			m_ability
+		set
+			name = #{_Ability.name},
+			description = #{_Ability.description},
+			num_of_holders = #{_Ability.numOfHolders}
+		where
+			organization_id = #{_Ability.organizationId.id}
+		and
+			ability_id = #{_Ability.abilityId.id}
+	</update>
+
+	<!-- 職能削除（１件） -->
+	<delete id="deleteOne">
+		delete from
+			m_ability
+		where
+			organization_id = #{_Ability.organizationId.id}
+		and
+			ability_id = #{_Ability.abilityId.id}
+	</delete>
+
+	<!-- 職能取得（１件） -->
+	<select id="findOne" resultMap="abilityMap">
+		select
+			*
+		from
+			m_ability
+		where
+			organization_id = #{_OrganizationId.id}
+		and
+			ability_id = #{_AbilityId.id}
+	</select>
+
+	<!-- 職能取得（全件） -->
+	<select id="findMany" resultMap="abilityMap">
+		select
+			*
+		from
+			m_ability
+		where
+			m_ability.organization_id = #{_OrganizationId.id}
+	</select>
+</mapper>

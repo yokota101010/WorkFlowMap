@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layout}"
+	xmlns:sec="http://thymeleaf.org/extras/spring-security">
+<head>
+	<title>お仕事マップ</title>
+</head>
+<body	th:with="abilityRepository=${repositoryService.getAbilityRepository()},
+				 divisionRepository=${repositoryService.getDivisionRepository()}">
+	<div layout:fragment="content">
+		<div class="header border-bottom">
+			<h1 class="h2">従業員（詳細）</h1>
+		</div>
+
+		<form th:action="@{/employee/detail}" method="post" th:object="${employeeDetailDpo}">
+			<!-- 従業員詳細情報 -->
+			<table class="table table-striped table-bordered table-hover">
+				<tbody>
+					<tr>
+						<th class="w-25">部署</th>
+						<td>
+							<!-- 部署プルダウンリスト -->
+							<select	name="employee.divisionId"
+								th:with="divisionList=${divisionRepository.findMany('__*{employee.organizationId}__')}">
+								<option th:each="item : ${divisionList}" th:value="${item.divisionId}" th:text="${item.name}"
+									th:selected="${item.divisionId} == *{employee.divisionId}"></option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<th class="w-25">従業員ID</th>
+						<td th:text="*{employee.employeeId}"></td>
+					</tr>
+					<tr>
+						<th class="w-25">氏名</th>
+						<td>
+							<input type="text" class="form-control" th:field="*{employee.name}" th:errorclass="is-invalid" readOnly>
+							<div class="invalid-feedback" th:errors="*{employee.name}"></div>
+						</td>
+					</tr>
+					<tr>
+						<th class="w-25">説明</th>
+						<td>
+							<textarea class="form-control" th:field="*{employee.description}" rows="3" th:errorclass="is-invalid" readOnly></textarea>
+							<div class="invalid-feedback" th:errors="*{employee.description}"></div>
+						</td>
+					</tr>
+					<tr>
+						<th class="w-25">保有職能</th>
+						<td>
+							<!-- 職能一覧表示テーブル -->
+							<table class="table table-striped table-bordered table-hover">
+								<thead class="thead-light">
+									<tr>
+										<th>#</th>
+										<th class="th-width">職能</th>
+									</tr>
+								</thead>
+								<tbody th:with="abilityList=${abilityRepository.findMany('__*{employee.organizationId}__')}">
+									<tr th:each="item : ${abilityList}">
+										<td>
+											<input type="checkbox" th:value="${item.abilityId}" th:field="*{employee.holdAbilityIds}" disabled>
+										</td>
+										<td th:text="${item.name} + '(' + ${item.abilityId} + ')'"></td>
+									</tr>
+								</tbody>
+							</table>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+
+			<!-- ボタンエリア -->
+			<div class="text-right" sec:authorize="hasRole('ADMIN')">
+				<button type="submit" class="btn btn-warning" name="btn-update">反映</button>
+				<button type="submit" class="btn btn-danger" name="btn-delete">削除</button>
+			</div>
+		</form>
+
+		<!-- ADMIN権限用の活性化処理 -->
+		<script sec:authorize="hasRole('ADMIN')" th:inline="javascript">
+			/**従業員詳細テキストボックス*/
+			var elm_name = document.getElementById("employee.name");
+			var elm_description = document.getElementById("employee.description");
+			elm_name.readOnly = false;
+			elm_description.readOnly = false;
+
+			/**職能チェックボックス*/
+			var elms_checkbox = document.getElementsByName("employee.holdAbilityIds")
+			elms_checkbox.forEach(function (checkTag) {
+				checkTag.disabled = false;
+			});
+		</script>
+
+	</div>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- Mapperとxmlのマッピング -->
+<mapper namespace="com.example.port.adapter.persistence.LoginuserMapper">
+	<!-- マッピング定義(システム利用者) -->
+	<resultMap type="com.example.domain.model.loginuser.Loginuser" id="loginuserMap">
+		<result column="password" property="password" />
+		<result column="role" property="role" />
+		<association property="userId" resultMap="uIdMap"/>
+	</resultMap>
+
+	<!-- マッピング定義(システム利用者ID) -->
+	<resultMap type="com.example.domain.model.loginuser.UserId" id="uIdMap">
+		<id column="user_id" property="id" />
+	</resultMap>
+
+	<!-- システム利用者作成（１件） -->
+	<insert id="insertOne">
+		insert into m_loginuser(
+			user_id,
+			password,
+			role
+		)
+		values(
+			#{_Loginuser.userId.id},
+			#{_Loginuser.password},
+			#{_Loginuser.role}
+		)
+	</insert>
+
+	<!-- システム利用者更新（１件） -->
+	<update id="updateOne">
+		update
+			m_loginuser
+		set
+			password = #{_Loginuser.password}
+		where
+			user_id = #{_Loginuser.userId.id}
+	</update>
+
+	<!-- システム利用者削除（１件） -->
+	<delete id="deleteOne">
+		delete from
+			m_loginuser
+		where
+			user_id = #{_Loginuser.userId.id}
+	</delete>
+
+	<!-- システム利用者取得（１件） -->
+	<select id="findOne" resultMap="loginuserMap">
+		select
+			*
+		from
+			m_loginuser
+		where
+			user_id = #{_UserId.id}
+	</select>
+</mapper>

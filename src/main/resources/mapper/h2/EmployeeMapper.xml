@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- Mapperとxmlのマッピング -->
+<mapper namespace="com.example.port.adapter.persistence.EmployeeMapper">
+	<!-- マッピング定義(従業員) -->
+	<resultMap type="com.example.domain.model.employee.Employee" id="employeeMap">
+		<result column="name" property="name" />
+		<result column="description" property="description" />
+		<result column="password" property="password"/>
+		<result column="role" property="role"/>
+		<association property="organizationId" resultMap="oIdMap"/>
+		<association property="employeeId" resultMap="eIdMap"/>
+		<association property="divisionId" resultMap="dIdMap"/>
+		<association property="userId" resultMap="uIdMap"/>
+		<collection property="holdAbilityIds" resultMap="haIdsMap" columnPrefix="haIds_"/>
+	</resultMap>
+
+	<!-- マッピング定義(組織ID) -->
+	<resultMap type="com.example.domain.model.organization.OrganizationId" id="oIdMap">
+		<id column="organization_id" property="id" />
+	</resultMap>
+
+	<!-- マッピング定義(従業員ID) -->
+	<resultMap type="com.example.domain.model.employee.EmployeeId" id="eIdMap">
+		<id column="employee_id" property="id" />
+	</resultMap>
+
+	<!-- マッピング定義(部署ID) -->
+	<resultMap type="com.example.domain.model.division.DivisionId" id="dIdMap">
+		<id column="division_id" property="id" />
+	</resultMap>
+
+	<!-- マッピング定義(従業員の職能ID) -->
+	<resultMap type="com.example.domain.model.ability.AbilityId" id="haIdsMap">
+		<id column="ability_id" property="id" />
+	</resultMap>
+
+	<!-- マッピング定義(システム利用者ID) -->
+	<resultMap type="com.example.domain.model.loginuser.UserId" id="uIdMap">
+		<id column="user_id" property="id" />
+	</resultMap>
+
+	<!-- 従業員作成（１件） -->
+	<insert id="insertOne">
+		insert into m_employee(
+			organization_id,
+			employee_id,
+			division_id,
+			name,
+			description,
+			user_id
+		)
+		values(
+			#{_Employee.organizationId.id},
+			#{_Employee.employeeId.id},
+			#{_Employee.divisionId.id},
+			#{_Employee.name},
+			#{_Employee.description},
+			#{_Employee.userId.id}
+		)
+	</insert>
+
+	<!-- 従業員更新（１件） -->
+	<update id="updateOne">
+		update
+			m_employee
+		set
+			division_id = #{_Employee.divisionId.id},
+			name = #{_Employee.name},
+			description = #{_Employee.description}
+		where
+			organization_id = #{_Employee.organizationId.id}
+		and
+			employee_id = #{_Employee.employeeId.id}
+	</update>
+
+	<!-- 従業員削除（１件） -->
+	<delete id="deleteOne">
+		delete from
+			m_employee
+		where
+			organization_id = #{_Employee.organizationId.id}
+		and
+			employee_id = #{_Employee.employeeId.id}
+	</delete>
+
+	<!-- 従業員取得（１件） -->
+	<select id="findOne" resultMap="employeeMap">
+		select
+			m_employee.organization_id,
+			m_employee.employee_id,
+			m_employee.division_id,
+			m_employee.name,
+			m_employee.description,
+			m_loginuser.user_id,
+			m_loginuser.password,
+			m_loginuser.role,
+			m_ability_of_employee.ability_id as haIds_ability_id
+		from
+			m_employee
+		left join
+			m_ability_of_employee
+		on
+			m_employee.organization_id = m_ability_of_employee.organization_id
+		and
+			m_employee.employee_id = m_ability_of_employee.employee_id
+		left join
+			m_loginuser
+		on
+			m_employee.user_id = m_loginuser.user_id
+		where
+			m_employee.organization_id = #{_OrganizationId.id}
+		and
+			m_employee.employee_id = #{_EmployeeId.id}
+	</select>
+
+	<!-- 従業員取得（全件） -->
+	<select id="findMany" resultMap="employeeMap">
+		select
+			m_employee.organization_id,
+			m_employee.employee_id,
+			m_employee.division_id,
+			m_employee.name,
+			m_employee.description,
+			m_loginuser.user_id,
+			m_loginuser.password,
+			m_loginuser.role,
+			m_ability_of_employee.ability_id as haIds_ability_id
+		from
+			m_employee
+		left join
+			m_ability_of_employee
+		on
+			m_employee.organization_id = m_ability_of_employee.organization_id
+		and
+			m_employee.employee_id = m_ability_of_employee.employee_id
+		left join
+			m_loginuser
+		on
+			m_employee.user_id = m_loginuser.user_id
+		where
+			m_employee.organization_id = #{_OrganizationId.id}
+	</select>
+
+	<!-- 従業員取得（条件：userId） -->
+	<select id="findOneByUserId" resultMap="employeeMap">
+		select
+			m_employee.organization_id,
+			m_employee.employee_id,
+			m_employee.division_id,
+			m_employee.name,
+			m_employee.description,
+			m_loginuser.user_id,
+			m_loginuser.password,
+			m_loginuser.role,
+			m_ability_of_employee.ability_id as haIds_ability_id
+		from
+			m_employee
+		left join
+			m_ability_of_employee
+		on
+			m_employee.organization_id = m_ability_of_employee.organization_id
+		and
+			m_employee.employee_id = m_ability_of_employee.employee_id
+		left join
+			m_loginuser
+		on
+			m_employee.user_id = m_loginuser.user_id
+		where
+			m_employee.user_id = #{_UserId.id}
+	</select>
+
+	<!-- 従業員数取得（条件：division） -->
+	<select id="countNumOfEmployeesIn">
+		select
+			count(*)
+		from
+			m_employee
+		where
+			m_employee.organization_id = #{_Division.organizationId.id}
+		and
+			m_employee.division_id = #{_Division.divisionId.id}
+	</select>
+
+	<!-- 従業員数取得（条件：ability） -->
+	<select id="countNumOfEmployeesHolding">
+		select
+			count(*)
+		from
+			m_ability_of_employee
+		where
+			m_ability_of_employee.organization_id = #{_Ability.organizationId.id}
+		and
+			m_ability_of_employee.division_id = #{_Ability.abilityId.id}
+	</select>
+</mapper>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layout}"
+	xmlns:sec="http://thymeleaf.org/extras/spring-security">
+<head>
+	<title>お仕事マップ</title>
+</head>
+<body>
+	<div layout:fragment="content">
+		<div class="header border-bottom">
+			<h1 class="h2">職能（詳細）</h1>
+		</div>
+
+		<form th:action="@{/ability/detail}" method="post" th:object="${abilityDetailDpo.ability}">
+			<!-- 職能詳細情報 -->
+			<table class="table table-striped table-bordered table-hover">
+				<tbody>
+					<tr>
+						<th class="w-25">職能ID</th>
+						<td th:text="*{abilityId}"></td>
+					</tr>
+					<tr>
+						<th class="w-25">職能名</th>
+						<td>
+							<input type="text" class="form-control" th:field="*{name}" th:errorclass="is-invalid" readOnly>
+							<div class="invalid-feedback" th:errors="*{name}"></div>
+						</td>
+					</tr>
+					<tr>
+						<th class="w-25">説明</th>
+						<td>
+							<textarea class="form-control" th:field="*{description}" rows="3" th:errorclass="is-invalid" readOnly></textarea>
+							<div class="invalid-feedback" th:errors="*{description}"></div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+
+			<!-- ボタンエリア -->
+			<div class="text-right" sec:authorize="hasRole('ADMIN')">
+				<button type="submit" class="btn btn-warning" name="btn-update">反映</button>
+				<button type="submit" class="btn btn-danger" name="btn-delete">削除</button>
+			</div>
+		</form>
+
+		<script sec:authorize="hasRole('ADMIN')">
+			var elm_name = document.getElementById("ability.name");
+			var elm_description = document.getElementById("ability.description");
+			elm_name.readOnly = false;
+			elm_description.readOnly = false;
+		</script>
+	</div>
+</body>
+</html>

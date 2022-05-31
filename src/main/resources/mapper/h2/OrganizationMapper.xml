@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- Mapperとxmlのマッピング -->
+<mapper namespace="com.example.port.adapter.persistence.OrganizationMapper">
+	<!-- マッピング定義(組織) -->
+	<resultMap type="com.example.domain.model.organization.Organization" id="organizationMap">
+		<result column="name" property="name" />
+		<result column="description" property="description" />
+		<result column="password" property="password"/>
+		<result column="role" property="role"/>
+		<association property="userId" resultMap="uIdMap"/>
+		<association property="organizationId" resultMap="oIdMap"/>
+	</resultMap>
+
+	<!-- マッピング定義(組織ID) -->
+	<resultMap type="com.example.domain.model.organization.OrganizationId" id="oIdMap">
+		<id column="organization_id" property="id" />
+	</resultMap>
+
+	<!-- マッピング定義(システム利用者ID) -->
+	<resultMap type="com.example.domain.model.loginuser.UserId" id="uIdMap">
+		<id column="user_id" property="id" />
+	</resultMap>
+
+	<!-- 組織作成（１件） -->
+	<insert id="insertOne">
+		insert into m_organization(
+			organization_id,
+			name,
+			description,
+			user_id
+		)
+		values(
+			#{_Organization.organizationId.id},
+			#{_Organization.name},
+			#{_Organization.description},
+			#{_Organization.userId.id}
+		)
+	</insert>
+
+	<!-- 組織取得（１件） -->
+	<select id="findOne" resultMap="organizationMap">
+		select
+			m_organization.organization_id,
+			m_organization.name,
+			m_organization.description,
+			m_loginuser.user_id,
+			m_loginuser.password,
+			m_loginuser.role
+		from
+			m_organization
+		left join
+			m_loginuser
+		on
+			m_organization.user_id = m_loginuser.user_id
+		where
+			m_organization.organization_id = #{_OrganizationId.id}
+	</select>
+
+	<!-- 組織取得（条件：userId） -->
+	<select id="findOneByUserId" resultMap="organizationMap">
+		select
+			m_organization.organization_id,
+			m_organization.name,
+			m_organization.description,
+			m_loginuser.user_id,
+			m_loginuser.password,
+			m_loginuser.role
+		from
+			m_organization
+		left join
+			m_loginuser
+		on
+			m_organization.user_id = m_loginuser.user_id
+		where
+			m_organization.user_id = #{_UserId.id}
+	</select>
+</mapper>

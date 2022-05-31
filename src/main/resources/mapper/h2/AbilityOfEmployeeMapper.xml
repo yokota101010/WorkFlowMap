@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- Mapperとxmlのマッピング -->
+<mapper namespace="com.example.port.adapter.persistence.AbilityOfEmployeeMapper">
+	<!-- 従業員の職能作成（１件） -->
+	<insert id="insertOne">
+		insert into m_ability_of_employee(
+			organization_id,
+			employee_id,
+			ability_id
+		)
+		values(
+			#{_OrganizationId.id},
+			#{_EmployeeId.id},
+			#{_AbilityId.id}
+		)
+	</insert>
+
+	<!-- 従業員の職能削除（全件） -->
+	<delete id="deleteMany">
+		delete from
+			m_ability_of_employee
+		where
+			organization_id = #{_Employee.organizationId.id}
+		and
+			employee_id = #{_Employee.employeeId.id}
+	</delete>
+</mapper>

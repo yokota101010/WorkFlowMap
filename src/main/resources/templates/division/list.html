@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layout}"
+	xmlns:sec="http://thymeleaf.org/extras/spring-security">
+<head>
+	<title>お仕事マップ</title>
+</head>
+<body>
+	<div layout:fragment="content">
+		<div class="header border-bottom">
+			<h1 class="h2">部署（一覧）</h1>
+		</div>
+
+		<!-- 新規作成用リンク -->
+		<a class="btn btn-primary my-2" th:href="@{'/division/new'}" sec:authorize="hasRole('ADMIN')">新規</a>
+
+		<!-- 一覧表示 -->
+		<form th:action="@{/division/detail}" method="post" th:object="${divisionListDpo}">
+			<!-- 一覧表示テーブル -->
+			<table class="table table-striped table-bordered table-hover">
+				<thead class="thead-light">
+					<tr>
+						<th>#</th>
+						<th class="th-width">部署</th>
+						<th class="th-width">従業員数</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="item: *{divisionList}">
+						<td>
+							<input type="radio" name="selectedDivisionId" th:value="${item.divisionId}" required>
+						</td>
+						<td th:text="${item.name} + '(' + ${item.divisionId} + ')'"></td>
+						<td th:text="${item.numOfEmployees}"></td>
+					</tr>
+				</tbody>
+			</table>
+
+			<!-- ボタン -->
+			<button type="submit" class="btn btn-primary" name="btn-detail">詳細</button>
+		</form>
+
+	</div>
+</body>
+</html>

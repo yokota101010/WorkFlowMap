@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layout}"
+	xmlns:sec="http://thymeleaf.org/extras/spring-security">
+<head>
+</head>
+<body>
+	<div layout:fragment="menu" class="bg-light">
+		<div>定義系</div>
+		<ul class="nav nav-pills nav-stacked">
+			<li role="presentation">
+				<a class="nav-link" th:href="@{/division/list}">部署</a>
+			</li>
+			<li role="presentation">
+				<a class="nav-link" th:href="@{/ability/list}">職能</a>
+			</li>
+			<li role="presentation">
+				<a class="nav-link" th:href="@{/employee/list}">従業員</a>
+			</li>
+			<li role="presentation">
+				<a class="nav-link" th:href="@{#}">プロセス</a>
+			</li>
+		</ul>
+
+		<div>実行系</div>
+		<ul class="nav nav-pills nav-stacked">
+			<li role="presentation">
+				<a class="nav-link" th:href="@{#}">タスク発行</a>
+			</li>
+			<li role="presentation">
+				<a class="nav-link" th:href="@{/task/list}">タスク実行</a>
+			</li>
+		</ul>
+
+		<div>運用系</div>
+		<ul class="nav nav-pills nav-stacked">
+			<li role="presentation">
+				<a class="nav-link" th:href="@{/logout}">ログアウト</a>
+			</li>
+		</ul>
+	</div>
+</body>
+</html>

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- Mapperとxmlのマッピング -->
+<mapper namespace="com.example.port.adapter.persistence.DivisionMapper">
+
+	<!-- マッピング定義(部署) -->
+	<resultMap type="com.example.domain.model.division.Division" id="divisionMap">
+		<result column="name" property="name" />
+		<result column="description" property="description" />
+		<result column="num_of_employees" property="numOfEmployees" />
+		<association property="organizationId" resultMap="oIdMap"/>
+		<association property="divisionId" resultMap="dIdMap"/>
+	</resultMap>
+
+	<!-- マッピング定義(組織ID) -->
+	<resultMap type="com.example.domain.model.organization.OrganizationId" id="oIdMap">
+		<id column="organization_id" property="id" />
+	</resultMap>
+
+	<!-- マッピング定義(部署ID) -->
+	<resultMap type="com.example.domain.model.division.DivisionId" id="dIdMap">
+		<id column="division_id" property="id" />
+	</resultMap>
+
+	<!-- 部署作成（１件） -->
+	<insert id="insertOne">
+		insert into m_division(
+			organization_id,
+			division_id,
+			name,
+			description,
+			num_of_employees
+		)
+		values(
+			#{_Division.organizationId.id},
+			#{_Division.divisionId.id},
+			#{_Division.name},
+			#{_Division.description},
+			#{_Division.numOfEmployees}
+		)
+	</insert>
+
+	<!-- 部署更新（１件） -->
+	<update id="updateOne">
+		update
+			m_division
+		set
+			name = #{_Division.name},
+			description = #{_Division.description},
+			num_of_employees = #{_Division.numOfEmployees}
+		where
+			organization_id = #{_Division.organizationId.id}
+		and
+			division_id = #{_Division.divisionId.id}
+	</update>
+
+	<!-- 部署削除（１件） -->
+	<delete id="deleteOne">
+		delete from
+			m_division
+		where
+			organization_id = #{_Division.organizationId.id}
+		and
+			division_id = #{_Division.divisionId.id}
+	</delete>
+
+	<!-- 部署取得（１件） -->
+	<select id="findOne" resultMap="divisionMap">
+		select
+			*
+		from
+			m_division
+		where
+			organization_id = #{_OrganizationId.id}
+		and
+			division_id = #{_DivisionId.id}
+	</select>
+
+	<!-- 部署取得（全件） -->
+	<select id="findMany" resultMap="divisionMap">
+		select
+			*
+		from
+			m_division
+		where
+			organization_id = #{_OrganizationId.id}
+	</select>
+</mapper>

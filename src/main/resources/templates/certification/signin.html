@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{fw/fieldsToMapBase}">
+<head>
+	<meta charset="UTF-8"></meta>
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- CSS読込 -->
+	<link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+
+	<!-- JS読込 -->
+	<script th:src="@{/webjars/jquery/jquery.min.js}" defer></script>
+	<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}" defer></script>
+
+	<title>お仕事マップ</title>
+</head>
+<body>
+	<div layout:fragment="mainContent">
+
+		<div class="container">
+
+			<!-- 処理結果 -->
+			<div th:unless="${#strings.isEmpty(processingResult)}">
+				<p th:text="${processingResult}" class="alert alert-success my-2" role="alert"></p>
+			</div>
+
+			<header>
+				<h1>サインイン</h1>
+			</header>
+
+			<hr>
+
+			<form th:action="@{/signin}" method="post">
+				<p th:if="${session['SPRING_SECURITY_LAST_EXCEPTION']}!=null"
+					th:text="${session['SPRING_SECURITY_LAST_EXCEPTION'].message}"
+					class="text-danger">
+					ログインエラーメッセージ
+				</p>
+
+				<div class="form-group">
+					<label for="userId">ユーザーID<span class="badge bg-danger ml-1">必須</span></label>
+					<input type="text" id="userId" name="userId" class="form-control" placeholder="従業員IDを入力してください">
+				</div>
+
+				<div class="form-group">
+					<label for="password">パスワード<span class="badge bg-danger ml-1">必須</span></label>
+					<input type="password" id="password" name="password" class="form-control" placeholder="パスワードを入力してください">
+				</div>
+
+				<input type="submit" name="signin" class="btn btn-primary" value="サインイン">
+			</form>
+			<a th:href="@{/signup}">サインアップ</a>
+
+			<hr>
+
+			<footer>
+				<p>&copy; YS Corp</p>
+			</footer>
+		</div>
+
+	</div>
+</body>
+</html>
