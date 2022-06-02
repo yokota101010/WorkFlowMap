@@ -47,12 +47,6 @@ public class OrganizationService {
 		return organization;
 	}
 
-//	/*組織取得（条件：userId）ログイン専用*/
-//	@Transactional
-//	public Organization getOrganizationByUserId(UserId userId) {
-//		return repository.findOneByUserId(userId);
-//	}
-
 	/*新規組織インスタンス生成*/
 	@Transactional
 	public Organization newOrganization() {

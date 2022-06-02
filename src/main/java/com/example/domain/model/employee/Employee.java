@@ -11,7 +11,6 @@ import com.example.domain.model.RootEntity;
 import com.example.domain.model.ability.AbilityId;
 import com.example.domain.model.division.DivisionId;
 import com.example.domain.model.loginuser.Loginuser;
-import com.example.domain.model.loginuser.UserId;
 import com.example.domain.model.organization.OrganizationId;
 
 import lombok.Data;
@@ -40,29 +39,6 @@ public class Employee extends Loginuser implements RootEntity {
 	@Valid
 	@NotNull
 	private List<AbilityId> holdAbilityIds = new ArrayList<>();
-
-	public Employee() {}
-
-	public Employee(
-				OrganizationId organizationId,
-				EmployeeId employeeId,
-				DivisionId divisionId,
-				String name,
-				String description,
-				UserId userId,
-				String password,
-				String role,
-				List<AbilityId> holdAbilityIds) {
-		this.organizationId = organizationId;
-		this.employeeId = employeeId;
-		this.divisionId = divisionId;
-		this.name = name;
-		this.description = description;
-		super.userId = userId;
-		super.password = password;
-		super.role = role;
-		this.holdAbilityIds = holdAbilityIds;
-	}
 
 	public int numberOfAbilities() {
 		return holdAbilityIds.size();
