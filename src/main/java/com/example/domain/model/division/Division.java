@@ -28,15 +28,6 @@ public class Division implements RootEntity {
 
 	private int numOfEmployees = 0;
 
-	public Division() {}
-
-	public Division(OrganizationId organizationId, DivisionId divisionId, String name, String description) {
-		this.organizationId = organizationId;
-		this.divisionId = divisionId;
-		this.name = name;
-		this.description = description;
-	}
-
 	@Override
 	public void validate() {}
 

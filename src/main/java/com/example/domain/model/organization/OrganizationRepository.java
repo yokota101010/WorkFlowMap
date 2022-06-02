@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import com.example.domain.model.EntityNotExistsException;
 import com.example.domain.model.EntityNotUniqueException;
+import com.example.domain.model.ReferencedEntityCannotDeleteException;
 import com.example.domain.model.loginuser.Loginuser;
 import com.example.domain.model.loginuser.UserId;
 import com.example.port.adapter.persistence.LoginuserMapper;
@@ -29,6 +30,26 @@ public class OrganizationRepository {
 
 			//一意制約違反の場合はException発行
 			throw new EntityNotUniqueException();
+		}
+	}
+
+	/*組織削除（１件）*/
+	public void deleteOne(Organization organization) {
+		int number;
+
+		try {
+			number = orgMapper.deleteOne(organization);
+			usrMapper.deleteOne((Loginuser)organization);
+		} catch(DataIntegrityViolationException e) {
+
+			//削除対象が使用中の場合はException発行
+			throw new ReferencedEntityCannotDeleteException();
+		}
+
+		if(number == 0) {
+
+			//該当するエンティティが存在しない場合はException発行
+			throw new EntityNotExistsException();
 		}
 	}
 

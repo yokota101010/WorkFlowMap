@@ -6,7 +6,6 @@ import javax.validation.constraints.NotNull;
 
 import com.example.domain.model.RootEntity;
 import com.example.domain.model.loginuser.Loginuser;
-import com.example.domain.model.loginuser.UserId;
 
 import lombok.Data;
 
@@ -22,23 +21,6 @@ public class Organization extends Loginuser implements RootEntity {
 
 	@NotNull
 	private String description = "";
-
-	public Organization() {}
-
-	public Organization(
-				OrganizationId organizationId,
-				String name,
-				String description,
-				UserId userId,
-				String password,
-				String role) {
-		this.organizationId = organizationId;
-		this.name = name;
-		this.description = description;
-		super.userId = userId;
-		super.password = password;
-		super.role = role;
-	}
 
 	@Override
 	public void validate() {

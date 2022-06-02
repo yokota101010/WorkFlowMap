@@ -40,6 +40,14 @@
 		)
 	</insert>
 
+	<!-- 組織削除（１件） -->
+	<delete id="deleteOne">
+		delete from
+			m_organization
+		where
+			organization_id = #{_Organization.organizationId.id}
+	</delete>
+
 	<!-- 組織取得（１件） -->
 	<select id="findOne" resultMap="organizationMap">
 		select

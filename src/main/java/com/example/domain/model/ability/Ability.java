@@ -28,15 +28,6 @@ public class Ability implements RootEntity {
 
 	private int numOfHolders = 0;
 
-	public Ability() {}
-
-	public Ability(OrganizationId organizationId, AbilityId abilityId, String name, String description) {
-		this.organizationId = organizationId;
-		this.abilityId = abilityId;
-		this.name = name;
-		this.description = description;
-	}
-
 	@Override
 	public void validate() {}
 

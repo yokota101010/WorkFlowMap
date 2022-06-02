@@ -13,6 +13,9 @@ public interface OrganizationMapper {
 	/*組織作成（１件）*/
 	public void insertOne(@Param("_Organization") Organization organization);
 
+	/*組織削除（１件）*/
+	public int deleteOne(@Param("_Organization") Organization organization);
+
 	/*組織取得（１件）*/
 	public Organization findOne(@Param("_OrganizationId") OrganizationId organizationId);
 
