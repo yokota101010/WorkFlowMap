@@ -2,158 +2,257 @@ package com.example.domain.model.organization;
 
 import static org.junit.Assert.*;
 
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.example.domain.model.loginuser.UserId;
 
 @SpringBootTest
-public class OrganizationTest extends Organization {
+public class OrganizationTest {
 
-	@Test
-	public void 全てのフィールドが等しいならばOrganization自体も等しいと判断する() {
-		Organization org1 = new Organization();
-		org1.setOrganizationId(new OrganizationId("orgId"));
-		org1.setName("name");
-		org1.setDescription("description");
-		org1.setUserId(new UserId("userid"));
-		org1.setPassword("password");
-		org1.setRole("ROLE");
+	@Nested
+	class equalsのテスト {
 
-		Organization org2 = new Organization();
-		org2.setOrganizationId(new OrganizationId("orgId"));
-		org2.setName("name");
-		org2.setDescription("description");
-		org2.setUserId(new UserId("userid"));
-		org2.setPassword("password");
-		org2.setRole("ROLE");
+		@Test
+		void 全てのフィールドが等しいならばOrganization自体も等しいと判断する() {
 
-		assertTrue(org1.equals(org2));
-	}
+			// given
+			OrganizationId Id = new OrganizationId("orgId");
+			String name = "name";
+			String description = "description";
+			UserId userId = new UserId("userid");
+			String password = "password";
+			String role = "ROLE";
 
-	@Test
-	public void organizationIdが異なるならばOrganization自体も異なると判断する() {
-		Organization org1 = new Organization();
-		org1.setOrganizationId(new OrganizationId("orgId"));
-		org1.setName("name");
-		org1.setDescription("description");
-		org1.setUserId(new UserId("userid"));
-		org1.setPassword("password");
-		org1.setRole("ROLE");
+			// when
+			Organization org1 = new Organization();
+			org1.setOrganizationId(Id);
+			org1.setName(name);
+			org1.setDescription(description);
+			org1.setUserId(userId);
+			org1.setPassword(password);
+			org1.setRole(role);
 
-		Organization org2 = new Organization();
-		org2.setOrganizationId(new OrganizationId("orgId2"));
-		org2.setName("name");
-		org2.setDescription("description");
-		org2.setUserId(new UserId("userid"));
-		org2.setPassword("password");
-		org2.setRole("ROLE");
+			Organization org2 = new Organization();
+			org2.setOrganizationId(Id);
+			org2.setName(name);
+			org2.setDescription(description);
+			org2.setUserId(userId);
+			org2.setPassword(password);
+			org2.setRole(role);
 
-		assertFalse(org1.equals(org2));
-	}
+			// then
+			assertTrue(org1.equals(org2));
+		}
 
-	@Test
-	public void nameが異なるならばOrganization自体も異なると判断する() {
-		Organization org1 = new Organization();
-		org1.setOrganizationId(new OrganizationId("orgId"));
-		org1.setName("name");
-		org1.setDescription("description");
-		org1.setUserId(new UserId("userid"));
-		org1.setPassword("password");
-		org1.setRole("ROLE");
+		@Test
+		void organizationIdが異なるならばOrganization自体も異なると判断する() {
 
-		Organization org2 = new Organization();
-		org2.setOrganizationId(new OrganizationId("orgId"));
-		org2.setName("name2");
-		org2.setDescription("description");
-		org2.setUserId(new UserId("userid"));
-		org2.setPassword("password");
-		org2.setRole("ROLE");
+			// given
+			OrganizationId Id1 = new OrganizationId("orgId1");
+			OrganizationId Id2 = new OrganizationId("orgId2");
 
-		assertFalse(org1.equals(org2));
-	}
+			String name = "name";
+			String description = "description";
+			UserId userId = new UserId("userid");
+			String password = "password";
+			String role = "ROLE";
 
-	@Test
-	public void descriptionが異なるならばOrganization自体も異なると判断する() {
-		Organization org1 = new Organization();
-		org1.setOrganizationId(new OrganizationId("orgId"));
-		org1.setName("name");
-		org1.setDescription("description");
-		org1.setUserId(new UserId("userid"));
-		org1.setPassword("password");
-		org1.setRole("ROLE");
+			// when
+			Organization org1 = new Organization();
+			org1.setOrganizationId(Id1);
+			org1.setName(name);
+			org1.setDescription(description);
+			org1.setUserId(userId);
+			org1.setPassword(password);
+			org1.setRole(role);
 
-		Organization org2 = new Organization();
-		org2.setOrganizationId(new OrganizationId("orgId"));
-		org2.setName("name");
-		org2.setDescription("description2");
-		org2.setUserId(new UserId("userid"));
-		org2.setPassword("password");
-		org2.setRole("ROLE");
+			Organization org2 = new Organization();
+			org2.setOrganizationId(Id2);
+			org2.setName(name);
+			org2.setDescription(description);
+			org2.setUserId(userId);
+			org2.setPassword(password);
+			org2.setRole(role);
 
-		assertFalse(org1.equals(org2));
-	}
+			// then
+			assertFalse(org1.equals(org2));
+		}
 
-	@Test
-	public void userIdが異なるならばOrganization自体も異なると判断する() {
-		Organization org1 = new Organization();
-		org1.setOrganizationId(new OrganizationId("orgId"));
-		org1.setName("name");
-		org1.setDescription("description");
-		org1.setUserId(new UserId("userid"));
-		org1.setPassword("password");
-		org1.setRole("ROLE");
+		@Test
+		void nameが異なるならばOrganization自体も異なると判断する() {
 
-		Organization org2 = new Organization();
-		org2.setOrganizationId(new OrganizationId("orgId"));
-		org2.setName("name");
-		org2.setDescription("description");
-		org2.setUserId(new UserId("userid2"));
-		org2.setPassword("password");
-		org2.setRole("ROLE");
+			// given
+			OrganizationId Id = new OrganizationId("orgId");
 
-		assertFalse(org1.equals(org2));
-	}
+			String name1 = "name1";
+			String name2 = "name2";
 
-	@Test
-	public void passwordが異なるならばOrganization自体も異なると判断する() {
-		Organization org1 = new Organization();
-		org1.setOrganizationId(new OrganizationId("orgId"));
-		org1.setName("name");
-		org1.setDescription("description");
-		org1.setUserId(new UserId("userid"));
-		org1.setPassword("password");
-		org1.setRole("ROLE");
+			String description = "description";
+			UserId userId = new UserId("userid");
+			String password = "password";
+			String role = "ROLE";
 
-		Organization org2 = new Organization();
-		org2.setOrganizationId(new OrganizationId("orgId"));
-		org2.setName("name");
-		org2.setDescription("description");
-		org2.setUserId(new UserId("userid"));
-		org2.setPassword("password2");
-		org2.setRole("ROLE");
+			// when
+			Organization org1 = new Organization();
+			org1.setOrganizationId(Id);
+			org1.setName(name1);
+			org1.setDescription(description);
+			org1.setUserId(userId);
+			org1.setPassword(password);
+			org1.setRole(role);
 
-		assertFalse(org1.equals(org2));
-	}
+			Organization org2 = new Organization();
+			org2.setOrganizationId(Id);
+			org2.setName(name2);
+			org2.setDescription(description);
+			org2.setUserId(userId);
+			org2.setPassword(password);
+			org2.setRole(role);
 
-	@Test
-	public void roleが異なるならばOrganization自体も異なると判断する() {
-		Organization org1 = new Organization();
-		org1.setOrganizationId(new OrganizationId("orgId"));
-		org1.setName("name");
-		org1.setDescription("description");
-		org1.setUserId(new UserId("userid"));
-		org1.setPassword("password");
-		org1.setRole("ROLE");
+			// then
+			assertFalse(org1.equals(org2));
+		}
 
-		Organization org2 = new Organization();
-		org2.setOrganizationId(new OrganizationId("orgId"));
-		org2.setName("name");
-		org2.setDescription("description");
-		org2.setUserId(new UserId("userid"));
-		org2.setPassword("password");
-		org2.setRole("ROLE2");
+		@Test
+		void descriptionが異なるならばOrganization自体も異なると判断する() {
 
-		assertFalse(org1.equals(org2));
+			// given
+			OrganizationId Id = new OrganizationId("orgId");
+			String name = "name";
+
+			String description1 = "description1";
+			String description2 = "description2";
+
+			UserId userId = new UserId("userid");
+			String password = "password";
+			String role = "ROLE";
+
+			// when
+			Organization org1 = new Organization();
+			org1.setOrganizationId(Id);
+			org1.setName(name);
+			org1.setDescription(description1);
+			org1.setUserId(userId);
+			org1.setPassword(password);
+			org1.setRole(role);
+
+			Organization org2 = new Organization();
+			org2.setOrganizationId(Id);
+			org2.setName(name);
+			org2.setDescription(description2);
+			org2.setUserId(userId);
+			org2.setPassword(password);
+			org2.setRole(role);
+
+			// then
+			assertFalse(org1.equals(org2));
+		}
+
+		@Test
+		void userIdが異なるならばOrganization自体も異なると判断する() {
+
+			// given
+			OrganizationId Id = new OrganizationId("orgId");
+			String name = "name";
+			String description = "description";
+
+			UserId userId1 = new UserId("userid1");
+			UserId userId2 = new UserId("userid2");
+
+			String password = "password";
+			String role = "ROLE";
+
+			// when
+			Organization org1 = new Organization();
+			org1.setOrganizationId(Id);
+			org1.setName(name);
+			org1.setDescription(description);
+			org1.setUserId(userId1);
+			org1.setPassword(password);
+			org1.setRole(role);
+
+			Organization org2 = new Organization();
+			org2.setOrganizationId(Id);
+			org2.setName(name);
+			org2.setDescription(description);
+			org2.setUserId(userId2);
+			org2.setPassword(password);
+			org2.setRole(role);
+
+			// then
+			assertFalse(org1.equals(org2));
+		}
+
+		@Test
+		void passwordが異なるならばOrganization自体も異なると判断する() {
+
+			// given
+			OrganizationId Id = new OrganizationId("orgId");
+			String name = "name";
+			String description = "description";
+			UserId userId = new UserId("userid");
+
+			String password1 = "password1";
+			String password2 = "password2";
+
+			String role = "ROLE";
+
+			// when
+			Organization org1 = new Organization();
+			org1.setOrganizationId(Id);
+			org1.setName(name);
+			org1.setDescription(description);
+			org1.setUserId(userId);
+			org1.setPassword(password1);
+			org1.setRole(role);
+
+			Organization org2 = new Organization();
+			org2.setOrganizationId(Id);
+			org2.setName(name);
+			org2.setDescription(description);
+			org2.setUserId(userId);
+			org2.setPassword(password2);
+			org2.setRole(role);
+
+			// then
+			assertFalse(org1.equals(org2));
+		}
+
+		@Test
+		void roleが異なるならばOrganization自体も異なると判断する() {
+
+			// given
+			OrganizationId Id = new OrganizationId("orgId");
+			String name = "name";
+			String description = "description";
+			UserId userId = new UserId("userid");
+			String password = "password";
+
+			String role1 = "ROLE1";
+			String role2 = "ROLE2";
+
+			// when
+			Organization org1 = new Organization();
+			org1.setOrganizationId(Id);
+			org1.setName(name);
+			org1.setDescription(description);
+			org1.setUserId(userId);
+			org1.setPassword(password);
+			org1.setRole(role1);
+
+			Organization org2 = new Organization();
+			org2.setOrganizationId(Id);
+			org2.setName(name);
+			org2.setDescription(description);
+			org2.setUserId(userId);
+			org2.setPassword(password);
+			org2.setRole(role2);
+
+			// then
+			assertFalse(org1.equals(org2));
+		}
+
 	}
 }
