@@ -2,10 +2,7 @@ package com.example.domain.model.organization;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.function.Executable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -43,8 +40,6 @@ public class OrganizationRepositoryTest {
 		org2.setPassword("password2");
 		org2.setRole("ROLE2");
 		repository.insertOne(org2);
-
-		System.out.println("通過！！！");
 	}
 
 	@AfterEach
