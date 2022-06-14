@@ -105,7 +105,6 @@ public class OrganizationRepositoryTest {
 		@Test
 		void 存在しないuserIdの組織を取得するとEntityNotExistsExceptionを発行する() {
 
-			System.out.println("通過！！！");
 			// given
 			UserId userId = new UserId("not exist");
 
